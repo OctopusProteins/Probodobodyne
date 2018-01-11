@@ -1,6 +1,8 @@
 package Probodobodyne;
 
 import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.util.RateLimitException;
+import sx.blah.discord.util.RequestBuffer;
 
 public class LaunchData {
 	String name;
@@ -15,7 +17,12 @@ public class LaunchData {
 	int limit = 70;
 
 	public void printResponse(IChannel c) {
-		c.sendMessage("Name: " + this.name);
+		
+		RequestBuffer.request(() -> {
+			c.sendMessage("Name: " + this.name);
+		});
+		
+		
 		c.sendMessage("Window Opens: " + this.windowStart);
 		c.sendMessage("Window Closes: " + this.windowEnd);
 
