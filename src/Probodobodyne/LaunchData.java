@@ -1,7 +1,7 @@
 package Probodobodyne;
 
 import sx.blah.discord.handle.obj.IChannel;
-import sx.blah.discord.util.RateLimitException;
+import sx.blah.discord.util.EmbedBuilder;
 import sx.blah.discord.util.RequestBuffer;
 
 public class LaunchData {
@@ -14,47 +14,65 @@ public class LaunchData {
 	String rocketAgency;
 	String[] missionName;
 	String[] missionDescription;
-	int limit = 70;
 
 	public void printResponse(IChannel c) {
-		
-		RequestBuffer.request(() -> {
-			c.sendMessage("Name: " + this.name);
-		});
-		
-		
-		c.sendMessage("Window Opens: " + this.windowStart);
-		c.sendMessage("Window Closes: " + this.windowEnd);
 
+		c.sendMessage("Name: " + this.name + " | " + this.rocketAgency);
+		c.sendMessage("Window Open: " + this.windowStart);
+		c.sendMessage("Window Close: " + this.windowEnd);
 		c.sendMessage("Location: " + this.locationName);
-		c.sendMessage("Rocket: " + this.rocketName);
-		c.sendMessage("Agency: " + this.rocketAgency);
 
-		for (int i = 0; i < missionName.length; i++) {
-			c.sendMessage("Mission: " + this.missionName[i]);
-			String cd = this.missionDescription[i];
+		if (missionDescription.length == 0)
+			c.sendMessage("No Description Available.");
+		else {
+			for (String s : missionDescription) {
+				RequestBuffer.request(() -> {
+					c.sendMessage("Mission Description: " + missionDescription[0]);
+				});
 
-			c.sendMessage("Mission Description: ");
-			String[] split = cd.split(" ");
-			String ncd = "";
-			int total = 0;
-			for (String s : split) {
-				total += s.length() + 1;
-				ncd = ncd + s + " ";
-				if (total >= limit) {
-					c.sendMessage(ncd);
-					total = 0;
-					ncd = "";
-				} 
 			}
-			if (ncd.length() > 0)
-				c.sendMessage(ncd);
+		}
+		if (vidUrls.length == 0)
+			RequestBuffer.request(() -> {
+				c.sendMessage("No Webcast Available.");
+			});
+		else {
+			for (String s : this.vidUrls) {
+				RequestBuffer.request(() -> {
+					c.sendMessage("Stream URL: " + s);
+				});
+
+			}
 		}
 
-		for (String s : this.vidUrls) {
-			c.sendMessage("Stream URL: " + s);
+	}
+	
+	public void embedResponse(IChannel c) {
+		EmbedBuilder b = new EmbedBuilder();
+		
+		b.withAuthorName("Next Launch: ");
+		b.withAuthorIcon("https://i.imgur.com/LhEG64t.png");
+		
+		b.withColor(0, 100, 200);
+		
+		b.appendField("Name:", this.name, false);
+		b.appendField("Window Open:", this.windowStart, true);
+		b.appendField("Window Close:", this.windowEnd, true);
+		b.appendField("Location:", this.locationName, false);
+		if (missionDescription.length == 0) b.appendField("Description:", "No Description Available.", false);
+		else {
+			for (String s : missionDescription) {
+				b.appendField("Description:", s, false);
+			}
 		}
-
+		if (vidUrls.length == 0) b.appendField("Webcast:", "No Webcast Available.", false);
+		else {
+			for (String s : vidUrls) {
+				b.appendField("Webcast:", s, false);
+			}
+		}
+		
+		RequestBuffer.request(() -> c.sendMessage(b.build()));
 	}
 
 }

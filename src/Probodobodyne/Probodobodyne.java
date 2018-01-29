@@ -1,25 +1,9 @@
 package Probodobodyne;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
-
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventDispatcher;
-import sx.blah.discord.api.events.EventSubscriber;
-import sx.blah.discord.handle.impl.events.ReadyEvent;
-import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
-import sx.blah.discord.handle.obj.IChannel;
-import sx.blah.discord.handle.obj.IGuild;
-import sx.blah.discord.handle.obj.IMessage;
-import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.DiscordException;
-import sx.blah.discord.util.MissingPermissionsException;
 import sx.blah.discord.util.RateLimitException;
 
 public class Probodobodyne {
@@ -32,7 +16,7 @@ public class Probodobodyne {
 		System.out.println("Starting bot...");
 		IDiscordClient client = createClient(TOKEN, true);
 		EventDispatcher dispatcher = client.getDispatcher();
-		dispatcher.registerListener(new OnMessage());
+		dispatcher.registerListener(new OnMessage(client));
 		dispatcher.registerListener(new OnReady());
 	}
 	
