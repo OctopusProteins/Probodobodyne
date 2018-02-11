@@ -8,7 +8,7 @@ import sx.blah.discord.util.RateLimitException;
 
 public class Probodobodyne {
 
-	private static final String TOKEN = "NDAwNDE2Njc5NjgwNjcxNzU0.DTfR4w.PSqiZ7C0hjojQojHjEvm9NqhAz0";
+	private static final String TOKEN = "REDACTED";
 	static final String PREFIX = ".";
 	private static IDiscordClient client;
 
