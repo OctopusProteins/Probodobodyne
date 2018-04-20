@@ -53,7 +53,7 @@ public class OnMessage {
 		commands.put("cat", "Gets a fun cat.");
 		commands.put("dog", "Gets a fun dog.");
 		commands.put("bird", "Gets a random bird.");
-		commands.put("car", "Fum times.");
+		//commands.put("car", "Fum times.");
 		
 		Random rand = new Random();
 		
@@ -261,7 +261,7 @@ public class OnMessage {
 				"http://nodtotherhythm.com/?gkVmp8ICgf\n", "http://falconheavy.space/index2.html\n", "BEEP BOOP. ERROR ERROR.", 
 				"The communist car denies your request.", "Try again in 666 hours.", "Is there life on Mars?", "Ground Control to Major Tom", "2155 birds, kill them all", 
 				"There was an error. Tell a mod that \"There was a- haha, just kidding", "YES", "NO", "MAYBE", "I'm open source!", "Houston, we have a problem", 
-				"https://twitter.com/AlexJamesFitz/status/960918869950058496\n", "I think my spaceship knows where to go- WAIT, I THINK?!", "die.", 
+				"https://twitter.com/AlexJamesFitz/status/960918869950058496\n", "die.", 
 				"Jeefrey condemns you to death by existential crisis.", "sus", "SAWAS", "Herbie, do 17 burpees!", 
 				"You haven't gotten any errors recently, so here's one to show you I still care.", "Keyboard not responding. Press any key to continue", 
 				"https://www.hongkiat.com/blog/wp-content/uploads/funny_error_messages/no-life-error-funny-error-messages.jpg\n", "Time remaining: 25762576255 hours remaining", 
@@ -272,11 +272,11 @@ public class OnMessage {
 				"Shouldn't you be doing your homework right now?", "The Dumbo Octopus denies your request.", "Made with the souls of small animals.", 
 				"Gluten-free!", "Heads I win, tails you lose!", "Just read the instructions.", ".botception", "/shrug", "/tableflip", "/unflip", "Task failed successfully.", 
 				"https://viralviralvideos.com/wp-content/uploads/2011/07/404-funny.jpg\n", "Cannot delete file.txt. Not enough free space.", "THE CAKE IS A LIE", 
-				"A team of trained monkeys has been dispatched to your location. Please standby.", "Did you take your protein pills?", "Smash face on keyboard to continue.", 
+				"A team of trained monkeys has been dispatched to your location. Please standby.", "Smash face on keyboard to continue.", 
 				"https://pbs.twimg.com/media/C57jDv_UoAAuz6L.jpg\n", "Discord4J: ERROR INITIALIZING LOGGER!", "Our servers were too busy for their own good. A team is on the way with cheeseburgers", 
 				"We have 24601 problems.", "SpaceY!"};
 
-		if (message.getContent().startsWith(Probodobodyne.PREFIX) && !message.getContent().startsWith("..")) {
+		if (message.getContent().startsWith(Probodobodyne.PREFIX) && !message.getContent().startsWith("..") && !message.getContent().equals(".")) {
 			String command = message.getContent().substring(1);
 
 			if (command.equalsIgnoreCase("nl")) {
@@ -284,9 +284,6 @@ public class OnMessage {
 			}
 			else if (command.equalsIgnoreCase("cat")) {
 				catParse(channel);
-			}
-			else if (command.equalsIgnoreCase("car")) {
-				carPost(channel);
 			}
 			else if (command.equalsIgnoreCase("dog")) {
 				dogParse(channel);
