@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.internal.json.objects.EmbedObject;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
@@ -18,7 +19,7 @@ public class Sys {
 	// key: guild
 	// key: parameter, value: data
 
-	public static void sysMain(IChannel channel, String command, IGuild guild) {
+	public static void sysMain(IChannel channel, String command, IGuild guild, IDiscordClient client) {
 
 		if (!data.containsKey(guild))
 			data.put(guild, new HashMap<String, String>());
@@ -26,14 +27,17 @@ public class Sys {
 		if (command.length() >= 5) {
 			String para = command.substring(4);
 			if (para.startsWith("errorOn")) {
-				if (para.endsWith("1"))
-					setProperty("errorOn", "1", channel, guild);
-				else if (para.endsWith("0"))
-					setProperty("errorOn", "0", channel, guild);
-				else
-					statusOf("errorOn", channel, guild);
-			} else
-				channel.sendMessage("Parameter does not exist.");
+				if (para.endsWith("1")) setProperty("errorOn", "1", channel, guild);
+				else if (para.endsWith("0")) setProperty("errorOn", "0", channel, guild);
+				else statusOf("errorOn", channel, guild);
+			} else if (para.startsWith("update")) {
+				channel.sendMessage("Loading persistance from file...");
+				data = Persistance.initPersistance(client);
+				channel.sendMessage(Persistance.printSer());
+				channel.sendMessage("Loaded!");
+			}
+			else channel.sendMessage("Parameter does not exist.");
+			Persistance.updatePersistance(data);
 		}
 	}
 
@@ -52,7 +56,7 @@ public class Sys {
 		channel.bulkDelete(toDelete);
 	}
 
-	private static EmbedObject EmbedBuilder(String title, String desc, IGuild guild) {
+	public static EmbedObject EmbedBuilder(String title, String desc, IGuild guild) {
 		EmbedBuilder b = new EmbedBuilder();
 		b.withColor(255, 221, 0);
 		b.withAuthorName(guild.getName());
@@ -68,7 +72,8 @@ public class Sys {
 			c.sendMessage("Property not initialized yet! Initializing...");
 			data.put(guild, new HashMap<String, String>());
 		}
-		else c.sendMessage(EmbedBuilder(name, Sys.data.get(guild).get(name), guild));
+		else
+		c.sendMessage(EmbedBuilder(name, Sys.data.get(guild).get(name), guild));
 	}
 
 	public static <T> T getProperty(T t) {

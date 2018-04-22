@@ -88,10 +88,10 @@ public class OnMessage {
 			else if (command.equalsIgnoreCase("bird")) {
 				Bird.birdParse(channel, rand);
 			}
-			else if (command.startsWith("sys")) {
-				Sys.sysMain(channel, command, guild);
+			else if (command.startsWith("sys") && (message.getAuthor().getPermissionsForGuild(guild).contains(Permissions.ADMINISTRATOR) || message.getAuthor().getName().equals("OctopusProteins"))) {
+				Sys.sysMain(channel, command, guild, client);
 			}
-			else if (command.startsWith("purge") && message.getAuthor().getPermissionsForGuild(guild).contains(Permissions.ADMINISTRATOR)) {
+			else if (command.startsWith("purge") && (message.getAuthor().getPermissionsForGuild(guild).contains(Permissions.ADMINISTRATOR) || message.getAuthor().getName().equals("OctopusProteins"))) {
 				Sys.purge(channel, command);
 			}
 			else if (command.equalsIgnoreCase("help")) {
@@ -102,7 +102,7 @@ public class OnMessage {
 					b.appendDescription(s + " - " + commands.get(s) + "\n");
 				}
 				channel.sendMessage(b.build());
-				
+				//System.out.println(message.getAuthor().getName());
 			}
 			else {
 				if (Sys.data.get(guild).get("errorOn").equals("1")) channel.sendMessage(fail[rand.nextInt(fail.length)]);
